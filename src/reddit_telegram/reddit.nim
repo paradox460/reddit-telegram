@@ -7,7 +7,7 @@ type
     url: string,
     permalink: string,
     score: int,
-    created: float
+    created_utc: float
   ]
 
 var RedditClient* = newHttpClient()
@@ -27,7 +27,8 @@ proc getNew*(subreddit: string): seq[RedditPost] =
     return node["data"].to(RedditPost)
   )
 
+
 proc postFilter*(posts: seq[RedditPost], minScore: int, maxAge: Time): seq[RedditPost] =
   return posts.filter(proc(post:RedditPost): bool =
-    post.score >= minScore and post.created > maxAge.toUnixFloat
+    post.score >= minScore and post.created_utc > maxAge.toUnixFloat
   )
