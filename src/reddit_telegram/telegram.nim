@@ -7,7 +7,7 @@ var
 
 proc initTelegram*(token: string): void =
   TelegramClient = newHttpClient()
-  TelegramClient.headers = newHttpHeaders({ "Content-Type": "application/json" })
+  TelegramClient.headers = newHttpHeaders({"Content-Type": "application/json"})
   TelegramToken = token
 
 proc sendMessage*(chat_id: string, text: string): void =
@@ -17,10 +17,13 @@ proc sendMessage*(chat_id: string, text: string): void =
     "parse_mode": "MarkdownV2"
 
   }
-  let response = TelegramClient.post(url = fmt("https://api.telegram.org/bot{TelegramToken}/sendMessage"), body = $message)
+  let response = TelegramClient.post(url = fmt(
+      "https://api.telegram.org/bot{TelegramToken}/sendMessage"),
+      body = $message)
 
   if response.code != Http200:
-    raise newException(HttpRequestError, fmt"Telegram post returned code {response.code}")
+    raise newException(HttpRequestError,
+        fmt"Telegram post returned code {response.code}")
 
   return
 
