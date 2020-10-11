@@ -20,7 +20,10 @@ proc buildTelegramMessage(data: RedditPost): string =
 
 when isMainModule:
   initTelegram("")
+  # TODO: Make this interval configurable
   let ten_ago = getTime() - initDuration(minutes = 10)
+  # TODO: Add configuration for subreddit, minScore
   for post in getNew("").postFilter(5, ten_ago):
     let tgMessage = post.buildTelegramMessage()
+    # TOOD: Add configuration for tg chat id
     sendMessage("", tgMessage)
